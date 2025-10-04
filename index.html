@@ -333,6 +333,148 @@
         </div>
 
         <div class="vuln-grid" style="margin-top:14px">
+          <div id="vuln-bac" class="vuln">
+            <h3>Broken Access Control</h3>
+            <p class="mini">Improper authorization checks enable IDOR, privilege escalation, or accessing restricted resources.</p>
+            <ul>
+              <li>Mitigate with server-side authZ on every request; deny-by-default; robust object-level checks.</li>
+            </ul>
+            <div class="badges"><span class="badge">A01:2021</span><span class="badge">OWASP</span></div>
+          </div>
+
+          <div id="vuln-crypto" class="vuln">
+            <h3>Cryptographic Failures</h3>
+            <p class="mini">Weak or missing encryption, exposed secrets, and bad key management leak sensitive data.</p>
+            <ul>
+              <li>TLS everywhere; vetted algorithms; key rotation; strong password hashing.</li>
+            </ul>
+            <div class="badges"><span class="badge">A02:2021</span><span class="badge">OWASP</span></div>
+          </div>
+
+          <div id="vuln-injection" class="vuln">
+            <h3>Injection</h3>
+            <p class="mini">Untrusted input reaches interpreters (SQL/NoSQL/OS/LDAP), leading to data loss or RCE.</p>
+            <ul>
+              <li>Parameterized queries, input validation, least-priv DB roles, safe APIs.</li>
+            </ul>
+            <div class="badges"><span class="badge">A03:2021</span><span class="badge">OWASP</span></div>
+          </div>
+
+          <div id="vuln-insecure-design" class="vuln">
+            <h3>Insecure Design</h3>
+            <p class="mini">Missing security requirements and threat modeling produce flawed controls.</p>
+            <ul>
+              <li>Threat modeling, abuse cases, security NFRs and design reviews in SDLC.</li>
+            </ul>
+            <div class="badges"><span class="badge">A04:2021</span></div>
+          </div>
+
+          <div id="vuln-misconfig" class="vuln">
+            <h3>Security Misconfiguration</h3>
+            <p class="mini">Default creds, verbose errors, open buckets, or missing hardening baselines.</p>
+            <ul>
+              <li>Secure baselines, hardened images, config scanning, minimize services.</li>
+            </ul>
+            <div class="badges"><span class="badge">A05:2021</span></div>
+          </div>
+
+          <div id="vuln-components" class="vuln">
+            <h3>Vulnerable & Outdated Components</h3>
+            <p class="mini">Dependencies with known CVEs, unsupported versions, or untracked transitive risks.</p>
+            <ul>
+              <li>SBOMs, version pinning, continuous scanning, patch cadence.</li>
+            </ul>
+            <div class="badges"><span class="badge">A06:2021</span></div>
+          </div>
+
+          <div id="vuln-auth" class="vuln">
+            <h3>Identification & Authentication Failures</h3>
+            <p class="mini">Weak auth flows, poor session handling, lack of MFA, credential stuffing risk.</p>
+            <ul>
+              <li>MFA, secure sessions, rate limits, modern password storage.</li>
+            </ul>
+            <div class="badges"><span class="badge">A07:2021</span></div>
+          </div>
+
+          <div id="vuln-integrity" class="vuln">
+            <h3>Software & Data Integrity Failures</h3>
+            <p class="mini">Untrusted CI/CD, unsigned updates, insecure deserialization break chain of trust.</p>
+            <ul>
+              <li>Signed artifacts, supply chain verification, safe serialization formats.</li>
+            </ul>
+            <div class="badges"><span class="badge">A08:2021</span></div>
+          </div>
+
+          <div id="vuln-logging" class="vuln">
+            <h3>Security Logging & Monitoring Failures</h3>
+            <p class="mini">Insufficient logs and alerting delay detection and response.</p>
+            <ul>
+              <li>Centralized logs, protected integrity, actionable alerts, retention.</li>
+            </ul>
+            <div class="badges"><span class="badge">A09:2021</span></div>
+          </div>
+
+          <div id="vuln-ssrf" class="vuln">
+            <h3>Server-Side Request Forgery (SSRF)</h3>
+            <p class="mini">Server fetches user-controlled URLs, reaching internal hosts or cloud metadata despite network ACLs.</p>
+            <ul>
+              <li>Allowlist schemes/hosts/ports, block link-local/internal ranges, egress controls, validate/sanitize URLs.</li>
+            </ul>
+            <div class="badges"><span class="badge">A10:2021</span><span class="badge">Cloud</span></div>
+          </div>
+
+          <div id="vuln-smuggling" class="vuln">
+            <h3>HTTP Request Smuggling</h3>
+            <p class="mini">Parser inconsistencies between proxies/backends (e.g., CL vs TE) enable desync, cache poisoning, and control bypass.</p>
+            <ul>
+              <li>Standardize parsing, avoid ambiguous headers, align front/back ends, prefer HTTP/2 backhaul where feasible.</li>
+            </ul>
+            <div class="badges"><span class="badge">Desync</span><span class="badge">Proxy Chains</span></div>
+ 
+          </div>
+
+          <div id="vuln-xss" class="vuln">
+            <h3>Cross-Site Scripting (XSS)</h3>
+            <p class="mini">Reflected/stored/DOM payloads execute in user context.</p>
+            <ul>
+              <li>Output encoding, CSP with nonces, input validation, safe templating.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-csrf" class="vuln">
+            <h3>Cross-Site Request Forgery (CSRF)</h3>
+            <p class="mini">Forged state-changing requests using victim’s session.</p>
+            <ul>
+              <li>SameSite cookies, anti-CSRF tokens, re-auth for sensitive actions.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-sqli" class="vuln">
+            <h3>SQL Injection (SQLi)</h3>
+            <p class="mini">Manipulated queries exfiltrate/alter data and escalate privileges.</p>
+            <ul>
+              <li>Parameterized queries, least-priv DB users, input validation.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-headers" class="vuln">
+            <h3>Security Headers</h3>
+            <p class="mini">Missing CSP, HSTS, or frame protections expose users to client-side risks.</p>
+            <ul>
+              <li>Set CSP, HSTS, X-Frame-Options, Referrer-Policy; validate via scanners.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-deser" class="vuln">
+            <h3>Insecure Deserialization</h3>
+            <p class="mini">Unsafe object deserialization leads to code execution or logic abuse.</p>
+            <ul>
+              <li>Avoid native deserialization for untrusted data; use safe formats and integrity checks.</li>
+            </ul>
+          </div>
+        
+        
+        <div class="vuln-grid" style="margin-top:14px">
           <!-- same vulnerability cards as in your snippet -->
           <!-- ... keep the previous vulnerability cards unchanged ... -->
         </div>

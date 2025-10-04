@@ -1,235 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" type="image/png" href="./images/logo.avif" />
-  <meta name="google-site-verification" content="Pu16XHvoU9GSv4BmH7pW4Svnrx1-I8BKRHcdYeMtKKc" />
-  <title>
-    HARSH VERMA PORTFOLIO
-  </title>
+  <meta name="theme-color" content="#00ff88" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Harsh Verma | Cyber Security</title>
+  <meta name="description" content="Harsh Verma — Penetration Testing, Web App Security, Networking, and System Administration." />
+  <style>
+    :root{
+      --bg:#000; --fg:#c9ffe6; --primary:#00ff88; --primary-2:#00e676;
+      --muted:#8effc9; --accent:#33ffc1; --card:#071e12cc; --card-border:#0a3;
+      --chip:#0a2a1f; --chip-border:#19ffa3; --danger:#ff5577;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; background:var(--bg); color:var(--fg); line-height:1.6; overflow-x:hidden}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
 
-  <meta name="description" content="Add small description of yourslef.">
-  <meta name="keywords" content="Put your name, skills and some coding keywords" />
-  <link rel="stylesheet" href="index.css" />
+    /* Background */
+    canvas#matrix{position:fixed; inset:0; z-index:-2; opacity:.22; filter: blur(.4px) contrast(120%)}
+    .vignette{position:fixed; inset:0; z-index:-1; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 80%); pointer-events:none}
+
+    .wrap{max-width:1100px; margin:0 auto; padding:24px 18px 88px}
+
+    /* Header */
+    header{padding:42px 0 24px; border-bottom:1px solid #0a3; display:flex; flex-direction:column; gap:10px; align-items:center; text-align:center}
+    h1{margin:0; font-size: clamp(28px, 5vw, 46px); color:var(--primary); text-shadow:0 0 10px var(--primary), 0 0 24px #0f6; letter-spacing:.5px}
+    .cursor{animation:blink 1s steps(1) infinite; color:var(--primary)}
+    @keyframes blink{50%{opacity:0}}
+    .roles{min-height:28px; color:var(--muted); font-size:15px}
+    .contact{display:flex; flex-wrap:wrap; gap:10px 16px; justify-content:center; margin-top:6px; color:var(--muted)}
+    .cta{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:10px}
+    .btn{padding:10px 14px; border-radius:10px; border:1px solid #19ffa3; color:#caffee; background:#052118; box-shadow:0 0 12px #00ffa52a inset, 0 0 10px #00ffa515; transition: transform .15s ease, background .2s ease; font-size:14px}
+    .btn:hover{transform:translateY(-2px); background:#063524}
+    .btn--danger{border-color:#ff7792; color:#ffdbe3; background:#2a0d16}
+
+    /* Sections */
+    section{margin:26px 0; background:var(--card); border:1px solid var(--card-border); border-radius:12px; padding:22px; box-shadow:0 0 24px #00ff8840 inset, 0 0 18px #00ff2220; backdrop-filter: blur(6px)}
+    section h2{margin:0 0 12px; font-size:18px; text-transform:uppercase; letter-spacing:1px; color:var(--primary); display:flex; align-items:center; gap:8px}
+    section h2::before{content:">"; color:var(--primary-2); text-shadow:0 0 8px #0f6}
+    p{margin:8px 0}
+    ul{padding-left:18px}
+    li{margin:6px 0}
+
+    /* Grid and chips */
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:16px}
+    .col-6{grid-column: span 6}
+    .col-12{grid-column: span 12}
+    @media (max-width: 920px){ .col-6{grid-column: span 12} }
+    .chips{display:flex; flex-wrap:wrap; gap:10px}
+    .chip{padding:7px 10px; border:1px solid var(--chip-border); border-radius:8px; background:linear-gradient(180deg,#041a12,var(--chip)); color:#caffee; font-size:13px; box-shadow:0 0 8px #00ffa522 inset, 0 0 10px #00ffa515; transition: transform .15s ease, box-shadow .2s ease}
+    .chip:hover{transform:translateY(-2px); box-shadow:0 0 10px #00ffa555 inset, 0 2px 14px #00ffa530}
+
+    /* Cards and badges */
+    .xp{display:flex; flex-direction:column; gap:8px; padding:14px; border:1px dashed #0a3; border-radius:10px; background:#03180f}
+    .xp h3{margin:0; font-size:16px; color:#9fffd5}
+    .xp .meta{font-size:12px; color:#9fffd5cc}
+
+    .projects{display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))}
+    .project{border:1px solid #118b5f; border-radius:10px; padding:14px; background:#052016; transition: transform .18s ease, box-shadow .2s ease}
+    .project:hover{transform:translateY(-3px); box-shadow:0 8px 22px #00ff8826}
+    .badges{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+    .badge{font-size:12px; padding:4px 8px; border:1px solid #18d88c; border-radius:7px; color:#caffee; background:#06291d}
+
+    /* Vulnerabilities layout */
+    .vuln-grid{display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))}
+    .vuln{border:1px solid #0a5; background:#062219; border-radius:10px; padding:14px}
+    .vuln h3{margin:0 0 6px; font-size:16px; color:#9fffd5}
+    .mini{font-size:12px; color:#9fffd5cc}
+    .v-actions{margin-top:10px; display:flex; gap:10px; flex-wrap:wrap}
+    .pill{font-size:12px; padding:4px 8px; border:1px solid #19ffa3; border-radius:999px; background:#073224; color:#caffee}
+
+    .code{background:#02150f; border:1px solid #0a3; border-radius:8px; padding:10px; overflow:auto; font-size:13px; color:#baffea; box-shadow: inset 0 0 10px #00ffa520}
+
+    footer{text-align:center; color:var(--muted); padding:22px 12px; border-top:1px solid #094}
+    .skip{position:absolute; left:-9999px}
+    .skip:focus{position:static; padding:8px; background:#052118; border:1px solid #0a3; border-radius:8px}
+  </style>
 </head>
-
 <body>
+  <canvas id="matrix" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
 
-  <!-- ***** Header ***** -->
+  <a class="skip" href="#main">Skip to content</a>
 
-  <header class="header" role="banner" id="top">
-    <div class="row">
-      <nav class="nav" role="navigation">
-        <ul class="nav__items">
-          <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
-          <li class="nav__item"><a href="#clients" class="nav__link">Introduction</a></li>
-          <li class="nav__item">
-            <a href="#about" class="nav__link">About</a>
-          </li>
-          <li class="nav__item">
-            <a href="#contact" class="nav__link">Contact</a>
-          </li>
+  <div class="wrap">
+    <header>
+      <h1>&gt; Harsh Verma<span class="cursor">_</span></h1>
+      <div class="roles" id="roles" aria-live="polite"></div>
+
+      <div class="contact" aria-label="Contact and Links">
+        <span><a href="mailto:harsh010verma@gmail.com">harsh010verma@gmail.com</a></span>
+        <span>•</span>
+        <span><a href="tel:+919041820705">(+91) 9041820705</a></span>
+        <span>•</span>
+        <span>Gurugram (122101), INDIA</span>
+        <span>•</span>
+        <span><a href="http://www.linkedin.com/in/harsh-1-verma" target="_blank" rel="noopener">LinkedIn</a></span>
+        <span>•</span>
+        <span><a href="https://github.com/harsh1verma" target="_blank" rel="noopener">Github</a></span>
+      </div>
+
+      <div class="cta">
+        <a class="btn" href="#projects">View Projects</a>
+        <a class="btn" href="#skills">Skills</a>
+        <a class="btn" href="#vulnerabilities">Vulnerabilities</a>
+        <a class="btn btn--danger" href="mailto:harsh010verma@gmail.com?subject=Security%20Engagement%20Inquiry">Hire for Pentest</a>
+      </div>
+    </header>
+
+    <main id="main" role="main">
+      <section aria-labelledby="about">
+        <h2 id="about">About</h2>
+        <p>Computer Science enthusiast specializing in penetration testing and web application security, focused on advancing cybersecurity, IT, and networking standards across Security Operations and Red Team functions through practical, impact-driven engineering.</p>
+      </section>
+
+      <section id="skills" aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Technical Skills</h2>
+        <div class="grid">
+          <div class="col-6">
+            <h3>Operating Systems & Admin</h3>
+            <div class="chips">
+              <span class="chip">Windows</span>
+              <span class="chip">Linux</span>
+              <span class="chip">Android</span>
+              <span class="chip">System Hardening</span>
+              <span class="chip">Asterisk Config</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <h3>Scripting</h3>
+            <div class="chips">
+              <span class="chip">Shell</span>
+              <span class="chip">Python</span>
+              <span class="chip">Automation</span>
+              <span class="chip">os.system</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <h3>Networking</h3>
+            <div class="chips">
+              <span class="chip">TCP/IP</span>
+              <span class="chip">VLANs</span>
+              <span class="chip">Subnetting</span>
+              <span class="chip">IPv6</span>
+              <span class="chip">Cisco Routing</span>
+              <span class="chip">Packet Tracer</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <h3>Web & APIs</h3>
+            <div class="chips">
+              <span class="chip">HTML</span>
+              <span class="chip">CSS</span>
+              <span class="chip">JavaScript</span>
+              <span class="chip">PHP</span>
+              <span class="chip">SQL</span>
+              <span class="chip">REST</span>
+              <span class="chip">HTTP/HTTPS</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <h3>Virtualization & Containers</h3>
+            <div class="chips">
+              <span class="chip">VMware</span>
+              <span class="chip">VirtualBox</span>
+              <span class="chip">Docker</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <h3>Security & Vulnerabilities</h3>
+            <div class="chips">
+              <span class="chip">OWASP Top 10</span>
+              <span class="chip">SQLi</span>
+              <span class="chip">XSS</span>
+              <span class="chip">CSRF</span>
+              <span class="chip">Parameter Tampering</span>
+              <span class="chip">Pivoting</span>
+              <span class="chip">SSRF</span>
+              <span class="chip">Request Smuggling</span>
+            </div>
+          </div>
+          <div class="col-12">
+            <h3>Tools</h3>
+            <div class="chips">
+              <span class="chip">Burp Suite</span>
+              <span class="chip">OWASP ZAP</span>
+              <span class="chip">Nmap</span>
+              <span class="chip">Metasploit</span>
+              <span class="chip">FFUF</span>
+              <span class="chip">Hydra</span>
+              <span class="chip">SQLMap</span>
+              <span class="chip">Wireshark</span>
+              <span class="chip">Netcat</span>
+              <span class="chip">JohnTheRipper</span>
+              <span class="chip">Aircrack-ng</span>
+              <span class="chip">Hashcat</span>
+              <span class="chip">GnuPG</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="experience">
+        <h2 id="experience">Professional Experience</h2>
+        <div class="grid">
+          <div class="col-6">
+            <div class="xp">
+              <h3>Tech Support Implementation Engineer — Haloocom</h3>
+              <div class="meta">Gurugram, India • Jun 2024 – Present</div>
+              <ul>
+                <li>Implemented and operated Haloocom Connect call center dialer application across Admin and Agent portals.</li>
+                <li>Performed server and local data backups; maintained and versioned Asterisk configuration files.</li>
+                <li>Supported rollout stability, optimizing dialer configuration and call flows.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="xp">
+              <h3>Penetration Tester Trainee — Cyberyaan</h3>
+              <div class="meta">New Delhi, India • Sep 2023 – May 2024</div>
+              <ul>
+                <li>Conducted end-to-end pentest lifecycle—reconnaissance to exploitation—with mixed manual and automated techniques.</li>
+                <li>Hardened networks with firewalls, VPNs, and IDS; authored PoC exploits and detailed reports.</li>
+                <li>Collaborated with stakeholders to communicate risks and remediation paths.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="xp">
+              <h3>Cyber Security Intern — E&ICT Academy, IIT Kanpur</h3>
+              <div class="meta">Kanpur, India • Jun 2021 – Aug 2021</div>
+              <ul>
+                <li>Investigated malware and intrusion patterns; assisted incident response and system hardening.</li>
+                <li>Delivered internal awareness on security hygiene and preventive controls.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="education">
+        <h2 id="education">Education</h2>
+        <ul>
+          <li><strong>B.E. Computer Science Engineering</strong> — Chandigarh University • Graduated Jun 2023</li>
+          <li><strong>Diploma in Electronics Engineering</strong> — ISTC CSIO-CSIR, Chandigarh • Sep 2020</li>
         </ul>
-      </nav>
-    </div>
-    <div class="header__text-box row">
-      <div class="header__text">
-        <h1 class="heading-primary">
-          <span>HARSH VERMA</span>
-        </h1>
-        <p>A Web Application Security Researcher and a Cyber Geek, India.</p>
-        <a href="#contact" class="btn btn--pink">Get in touch</a>
-      </div>
-    </div>
-  </header>
+      </section>
 
-  <main role="main">
-
-    <!-- ***** Work ***** -->
-
-    <section class="work" id="work">
-      <div class="row">
-        <h2>My Work</h2>
-        <div class="work__boxes">
-
-          <div class="work__box">
-            <div class="work__text">
-              <h3>Firewall Breaker</h3>
-              <p>
-                Is Like To Create Robust Attacker for Firewall
-              </p>
-              <ul class="work__list">
-                <th>Web stack</th>
-                <li>Java</li>
-                <li>Firebase</li>
-                <li>Json</li>
-                <li>XML</li>
-              </ul>
-<!--
-              <div class="work__links">
-                <a href="https://github.com/Adity-a/Parking_Tracker" target="_blank" class="link__text">
-                  Visit Site <span>&rarr;</span>
-                </a>
-                <a href="https://github.com/Adity-a/Parking_Tracker" title="View Source Code" target="_blank">
-                  <img src="./images/github.svg" class="work__code" alt="GitHub">
-                </a>
-              </div>
-              -->
-            </div>
-            <div class="work__image-box">
-              <img src="./images/a.avif" class="work__image" alt="Project 1" />
+      <section id="projects" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        <div class="projects">
+          <div class="project">
+            <h3>CTF & Juice Shop</h3>
+            <p>Practice and exploitation of OWASP Juice-Shop vulnerabilities with write-ups and remediations.</p>
+            <div class="badges">
+              <span class="badge">OWASP A1–A10</span>
+              <span class="badge">Write-ups</span>
             </div>
           </div>
-
-          <div class="work__box">
-            <div class="work__text">
-              <h3>Intelligent Eye</h3>
-              <p>
-                Is a Python Program that can scan and report fires using IP-Cam
-              </p>
-              <ul class="work__list">
-                <th>Web Stack</th>
-                <li>Java</li>
-                <li>My SQL</li>
-                <li>Json</li>
-                <li>XML</li>
-              </ul>
-<!--
-              <div class="work__links">
-                <a href="https://github.com/Adity-a/Project" target="_blank" class="link__text">
-                  Visit Site <span>&rarr;</span>
-                </a>
-                <a href="https://github.com/Adity-a/Project" title="View Source Code" target="_blank">
-                  <img src="./images/github.svg" class="work__code" title="View Source Code" alt="GitHub">
-                </a>
-              </div>
-              -->
-            </div>
-            <div class="work__image-box">
-              <img src="./images/b.avif" class="work__image" alt="Project 1" />
+          <div class="project">
+            <h3>Cyber Intruder</h3>
+            <p>Live network monitoring dashboard for traffic visibility and anomaly cues.</p>
+            <div class="badges">
+              <span class="badge">Monitoring</span>
+              <span class="badge">Python</span>
             </div>
           </div>
-
-          <div class="work__box">
-            <div class="work__text">
-              <h3>Web Buster</h3>
-              <p>
-                A Web Statics checker
-              </p>
-              <ul class="work__list">
-                <li>Kotlin</li>
-                <li>Firebase</li>
-                <li>Json</li>
-                <li>XML</li>
-              </ul>
-<!--
-              <div class="work__links">
-                <a href="https://github.com/EliteBarbs/Presence" target="_blank" class="link__text">
-                  Visit Site <span>&rarr;</span>
-                </a>
-                <a href="https://github.com/EliteBarbs/Presence" title="View Source Code" target="_blank">
-                  <img src="./images/github.svg" class="work__code" title="View Source Code" alt="GitHub">
-                </a>
-              </div>
-              -->
+          <div class="project">
+            <h3>Web Buster</h3>
+            <p>Recon and vulnerability scanning toolkit focused on endpoint discovery and fuzzing.</p>
+            <div class="badges">
+              <span class="badge">Recon</span>
+              <span class="badge">FFUF</span>
             </div>
-            <div class="work__image-box">
-              <img src="./images/c.avif" class="work__image" alt="Project 3" />
+          </div>
+          <div class="project">
+            <h3>Intelligent Eye</h3>
+            <p>Python-based automation for targeted checks and quick triage.</p>
+            <div class="badges">
+              <span class="badge">Automation</span>
+              <span class="badge">Python</span>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ***** Clients ***** -->
+      <!-- New Vulnerabilities Section -->
+      <section id="vulnerabilities" aria-labelledby="vuln-heading">
+        <h2 id="vuln-heading">Vulnerabilities</h2>
+        <p>Selected web risks aligned with OWASP Top 10 2021 and advanced topics like SSRF and HTTP request smuggling, with practical mitigations and anchors for quick navigation.</p>
+        <div class="v-actions">
+          <a class="pill" href="#vuln-bac">Broken Access Control</a>
+          <a class="pill" href="#vuln-crypto">Cryptographic Failures</a>
+          <a class="pill" href="#vuln-injection">Injection</a>
+          <a class="pill" href="#vuln-insecure-design">Insecure Design</a>
+          <a class="pill" href="#vuln-misconfig">Security Misconfiguration</a>
+          <a class="pill" href="#vuln-components">Vulnerable Components</a>
+          <a class="pill" href="#vuln-auth">Identification & Auth</a>
+          <a class="pill" href="#vuln-integrity">Software/Data Integrity</a>
+          <a class="pill" href="#vuln-logging">Logging & Monitoring</a>
+          <a class="pill" href="#vuln-ssrf">SSRF</a>
+          <a class="pill" href="#vuln-smuggling">Request Smuggling</a>
+          <a class="pill" href="#vuln-xss">XSS</a>
+          <a class="pill" href="#vuln-csrf">CSRF</a>
+          <a class="pill" href="#vuln-sqli">SQLi</a>
+          <a class="pill" href="#vuln-headers">Security Headers</a>
+          <a class="pill" href="#vuln-deser">Deserialization</a>
+        </div>
 
-    <section class="client" id="clients">
-      <div class="row">
-        <h2></h2> 
-        <!--
-        <div class="client__logos">
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/oa0tAKNHCm4" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/EGhN2qibcaM" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/E5c58-1sVr0" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/SMqSMkgSObE" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/JDPK074Zh10" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/IN3tHetjDYU" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/62bu8OJD59M" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/iarBCbMwVwE" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/o-LUfYboBYA" allowfullscreen></iframe>
-          <iframe style="margin: 5px;" title="Aditya Balodi Introduction" width="350" height="350"src="https://www.youtube.com/embed/00n-ZFwUB2k" allowfullscreen></iframe>
-          </div>
-          -->
-      </div>
-    </section>
-
-    <!-- ***** About ***** -->
-
-    <section class="about" id="about">
-      <div class="row">
-        <h2>About Me</h2>
-        <div class="about__content">
-          <div class="about__text">
-            <p>
-              Hi 👋👋 This is Harsh Verma, As a dynamic and technically proficient Computer Science enthusiast, I specialize in the intricate domains of penetration testing and web application security. With a relentless pursuit of excellence, I am committed to elevating standards in Cyber Security, Information Technology, and Networking. Positioned at the forefront of technical expertise, I am poised to contribute significantly to Security Operation and Red teams, driving continuous growth and innovation in this rapidly evolving field.
-            </p>
-            <a href="./images/Resume.pdf"  target="_blank" class="btn">My Resume</a>
+        <div class="vuln-grid" style="margin-top:14px">
+          <div id="vuln-bac" class="vuln">
+            <h3>Broken Access Control</h3>
+            <p class="mini">Improper authorization checks enable IDOR, privilege escalation, or accessing restricted resources.</p>
+            <ul>
+              <li>Mitigate with server-side authZ on every request; deny-by-default; robust object-level checks.</li>
+            </ul>
+            <div class="badges"><span class="badge">A01:2021</span><span class="badge">OWASP</span></div>
           </div>
 
-          <div class="about__photo-container">
-            <img class="about__photo" src="./images/harsh.jpg" alt="" />
+          <div id="vuln-crypto" class="vuln">
+            <h3>Cryptographic Failures</h3>
+            <p class="mini">Weak or missing encryption, exposed secrets, and bad key management leak sensitive data.</p>
+            <ul>
+              <li>TLS everywhere; vetted algorithms; key rotation; strong password hashing.</li>
+            </ul>
+            <div class="badges"><span class="badge">A02:2021</span><span class="badge">OWASP</span></div>
+          </div>
+
+          <div id="vuln-injection" class="vuln">
+            <h3>Injection</h3>
+            <p class="mini">Untrusted input reaches interpreters (SQL/NoSQL/OS/LDAP), leading to data loss or RCE.</p>
+            <ul>
+              <li>Parameterized queries, input validation, least-priv DB roles, safe APIs.</li>
+            </ul>
+            <div class="badges"><span class="badge">A03:2021</span><span class="badge">OWASP</span></div>
+          </div>
+
+          <div id="vuln-insecure-design" class="vuln">
+            <h3>Insecure Design</h3>
+            <p class="mini">Missing security requirements and threat modeling produce flawed controls.</p>
+            <ul>
+              <li>Threat modeling, abuse cases, security NFRs and design reviews in SDLC.</li>
+            </ul>
+            <div class="badges"><span class="badge">A04:2021</span></div>
+          </div>
+
+          <div id="vuln-misconfig" class="vuln">
+            <h3>Security Misconfiguration</h3>
+            <p class="mini">Default creds, verbose errors, open buckets, or missing hardening baselines.</p>
+            <ul>
+              <li>Secure baselines, hardened images, config scanning, minimize services.</li>
+            </ul>
+            <div class="badges"><span class="badge">A05:2021</span></div>
+          </div>
+
+          <div id="vuln-components" class="vuln">
+            <h3>Vulnerable & Outdated Components</h3>
+            <p class="mini">Dependencies with known CVEs, unsupported versions, or untracked transitive risks.</p>
+            <ul>
+              <li>SBOMs, version pinning, continuous scanning, patch cadence.</li>
+            </ul>
+            <div class="badges"><span class="badge">A06:2021</span></div>
+          </div>
+
+          <div id="vuln-auth" class="vuln">
+            <h3>Identification & Authentication Failures</h3>
+            <p class="mini">Weak auth flows, poor session handling, lack of MFA, credential stuffing risk.</p>
+            <ul>
+              <li>MFA, secure sessions, rate limits, modern password storage.</li>
+            </ul>
+            <div class="badges"><span class="badge">A07:2021</span></div>
+          </div>
+
+          <div id="vuln-integrity" class="vuln">
+            <h3>Software & Data Integrity Failures</h3>
+            <p class="mini">Untrusted CI/CD, unsigned updates, insecure deserialization break chain of trust.</p>
+            <ul>
+              <li>Signed artifacts, supply chain verification, safe serialization formats.</li>
+            </ul>
+            <div class="badges"><span class="badge">A08:2021</span></div>
+          </div>
+
+          <div id="vuln-logging" class="vuln">
+            <h3>Security Logging & Monitoring Failures</h3>
+            <p class="mini">Insufficient logs and alerting delay detection and response.</p>
+            <ul>
+              <li>Centralized logs, protected integrity, actionable alerts, retention.</li>
+            </ul>
+            <div class="badges"><span class="badge">A09:2021</span></div>
+          </div>
+
+          <div id="vuln-ssrf" class="vuln">
+            <h3>Server-Side Request Forgery (SSRF)</h3>
+            <p class="mini">Server fetches user-controlled URLs, reaching internal hosts or cloud metadata despite network ACLs.</p>
+            <ul>
+              <li>Allowlist schemes/hosts/ports, block link-local/internal ranges, egress controls, validate/sanitize URLs.</li>
+            </ul>
+            <div class="badges"><span class="badge">A10:2021</span><span class="badge">Cloud</span></div>
+          </div>
+
+          <div id="vuln-smuggling" class="vuln">
+            <h3>HTTP Request Smuggling</h3>
+            <p class="mini">Parser inconsistencies between proxies/backends (e.g., CL vs TE) enable desync, cache poisoning, and control bypass.</p>
+            <ul>
+              <li>Standardize parsing, avoid ambiguous headers, align front/back ends, prefer HTTP/2 backhaul where feasible.</li>
+            </ul>
+            <div class="badges"><span class="badge">Desync</span><span class="badge">Proxy Chains</span></div>
+ 
+          </div>
+
+          <div id="vuln-xss" class="vuln">
+            <h3>Cross-Site Scripting (XSS)</h3>
+            <p class="mini">Reflected/stored/DOM payloads execute in user context.</p>
+            <ul>
+              <li>Output encoding, CSP with nonces, input validation, safe templating.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-csrf" class="vuln">
+            <h3>Cross-Site Request Forgery (CSRF)</h3>
+            <p class="mini">Forged state-changing requests using victim’s session.</p>
+            <ul>
+              <li>SameSite cookies, anti-CSRF tokens, re-auth for sensitive actions.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-sqli" class="vuln">
+            <h3>SQL Injection (SQLi)</h3>
+            <p class="mini">Manipulated queries exfiltrate/alter data and escalate privileges.</p>
+            <ul>
+              <li>Parameterized queries, least-priv DB users, input validation.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-headers" class="vuln">
+            <h3>Security Headers</h3>
+            <p class="mini">Missing CSP, HSTS, or frame protections expose users to client-side risks.</p>
+            <ul>
+              <li>Set CSP, HSTS, X-Frame-Options, Referrer-Policy; validate via scanners.</li>
+            </ul>
+          </div>
+
+          <div id="vuln-deser" class="vuln">
+            <h3>Insecure Deserialization</h3>
+            <p class="mini">Unsafe object deserialization leads to code execution or logic abuse.</p>
+            <ul>
+              <li>Avoid native deserialization for untrusted data; use safe formats and integrity checks.</li>
+            </ul>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+        <p class="mini">Reference alignment: OWASP Top 10 2021; SSRF dedicated page; request smuggling guidance and labs.</p>
+      </section>
+    </main>
 
-  <!-- ***** Contact ***** -->
+    <footer>
+      <p>© 2025 Harsh Verma • “Access granted…” ▉</p>
+    </footer>
+  </div>
 
-  <section class="contact" id="contact">
-    <div class="row">
-      <h2>Get in Touch</h2>
-      <div class="contact__info">
-        <p>
-          Are you looking for a fast-performing and user-friendly Web Penetration Tester who can conduct VAPT? or looking for any kind of
-          consultation? or want to ask questions? or have some advice for me
-          or just want to say "Hi 👋" in any case feel free to Let me know. I
-          will do my best to respond back. 😊 The quickest way to reach out to
-          me is via an email.
-        </p>
-        <a href="mailto: harsh010verma@gmail.com?subject = Feedback&body = Message" class="btn">Email</a>
-      </div>
-    </div>
-  </section>
+  <script>
+    // Role rotator
+    const roles = [
+      "Cyber Security • Penetration Testing • Web App Security",
+      "Red Team Mindset • Pivoting • SSH Local Port-Forward",
+      "Linux • Kernel Modules • Automation (os.system)"
+    ];
+    const rolesEl = document.getElementById('roles');
+    let ri = 0, ci = 0, typing = true;
+    function tick(){
+      const text = roles[ri];
+      rolesEl.textContent = text.slice(0, ci);
+      if(typing){ ci++; if(ci > text.length + 6){ typing = false; } }
+      else { ci--; if(ci <= 0){ typing = true; ri = (ri+1)%roles.length; } }
+      setTimeout(tick, typing ? 40 : 22);
+    }
+    tick();
 
-  <!-- ***** Footer ***** -->
-
-  <footer role="contentinfo" class="footer">
-    <div class="row">
-      <ul class="footer__social-links">
-        <li class="footer__social-link-item">
-          <a href="https://github.com/harsh1verma" title="Link to Github Profile" target="_blank">
-            <img src="./images/github.svg" class="footer__social-image" alt="Github">
-          </a>
-        </li>
-        <li class="footer__social-link-item">
-          <a href="www.linkedin.com/in/harsh-1-verma" target="_blank">
-            <img src="./images/linkedin.svg" title="Link to Linkedin Profile" class="footer__social-image" alt="Linkedin">
-          </a>
-        </li>
-      </ul>
-      <p>
-        &copy; 2024 Harsh Verma Security Researcher's
-      </p>
-    </div>
-  </footer>
-
-  <a href="#top" class="back-to-top" title="Back to Top">
-    <img src="./images/arrow-up.svg" alt="Back to Top" class="back-to-top__image"/>
-  </a>
-  <script src="./index.js"></script>
+    // Matrix rain background
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let fontSize = 16, cols = 0, drops = [];
+    const chars = "01abcdefghijklmnopqrstuvwxyz#$%&@*";
+    function resize(){
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      cols = Math.floor(canvas.width / fontSize);
+      drops = Array(cols).fill(1+Math.random()*20);
+      ctx.font = fontSize + "px monospace";
+    }
+    window.addEventListener('resize', resize); resize();
+    (function draw(){
+      ctx.fillStyle = "rgba(0,0,0,0.09)"; ctx.fillRect(0,0,canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff88";
+      for(let i=0;i<drops.length;i++){
+        const txt = chars[Math.floor(Math.random()*chars.length)];
+        const x = i*fontSize, y = drops[i]*fontSize;
+        ctx.fillText(txt, x, y);
+        if(y > canvas.height && Math.random() > 0.975){ drops[i] = 0; }
+        drops[i]++;
+      }
+      requestAnimationFrame(draw);
+    })();
+  </script>
 </body>
-
 </html>
